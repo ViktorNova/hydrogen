@@ -587,28 +587,32 @@ void DrumPatternEditor::__draw_note( Note *note, QPainter& p )
 
 	QColor color = computeNoteColor( note->get_velocity() );
 
-	uint w = 8;
-	uint h =  m_nGridHeight / 3;
+// 	Here's where ViktorNova starts messing with the note size
+
+	uint w = m_nGridWidth * 12;
+	uint h =  m_nGridHeight -2;
 
 	if ( note->get_length() == -1 && note->get_note_off() == false ) {	// trigger note
-		uint x_pos = 20 + (pos * m_nGridWidth);// - m_nGridWidth / 2.0;
-		uint y_pos = ( nInstrument * m_nGridHeight) + (m_nGridHeight / 2) - 3;
 		p.setBrush( color );
-		p.drawEllipse( x_pos -4 , y_pos, w, h );
 
+		uint x = 20 + (pos * m_nGridWidth);
+//		x = x - (w / 2) + 1; // Put the note ON the line like normal hydrogen. Comment this out to make it like the song editor
 
+		//int w = m_nGridWidth * note->get_length() * 8;
+		//int w = m_nGridWidth * note->get_length() / fStep * 12;
+		w = m_nGridWidth * 12;
+		w = w - 1;	// lascio un piccolo spazio tra una nota ed un altra (leave small space between notes)
+		h = h - 2;	// lascio un piccolo spazio tra una nota ed un altra (leave small space between notes)
+		
+		int y = (int) ( ( nInstrument ) * m_nGridHeight +1);
+//		int h = (int) (m_nGridHeight - ((m_nGridHeight / 100.0 * 30.0) * 2.0) );
+
+//		p.drawEllipse( x_pos, y_pos, w, h ); 		// old tiny circle
+//		p.fillRect( x, y + 1, w, h + 1, color );	// rectangle method
+//		p.drawRect( x, y + 1, w, h + 1 );		// rectangle method, continued
+		p.drawRoundedRect( x, y + 1, w, h + 1 , 4, 4);	// rounded rectangle. my favorite!
 	}
-	else if ( note->get_length() == 1 && note->get_note_off() == true ){
-		p.setPen( noteoffColor );
-		uint x_pos = 20 + ( pos * m_nGridWidth );// - m_nGridWidth / 2.0;
-
-		uint y_pos = ( nInstrument * m_nGridHeight ) + (m_nGridHeight / 2) - 3;
-		p.setBrush(QColor( noteoffColor));
-		p.drawEllipse( x_pos -4 , y_pos, w, h );
-
-
-
-	}		
+	
 	else {
 		float fNotePitch = note->get_octave() * 12 + note->get_key();
 		float fStep = pow( 1.0594630943593, ( double )fNotePitch );
