@@ -1,13 +1,9 @@
+#include <cppunit/extensions/TestFactoryRegistry.h>
+#include <cppunit/ui/text/TestRunner.h>
 
-#include "hydrogen/logger.h"
-#include "hydrogen/object.h"
-#include "hydrogen/helpers/filesystem.h"
+#include <hydrogen/helpers/filesystem.h>
 
-void rubberband_test( const QString& sample_path );
-int xml_drumkit( int log_level );
-int xml_pattern( int log_level );
-
-int main( int argc, char* argv[] )
+void setupEnvironment()
 {
     int log_level = H2Core::Logger::Debug | H2Core::Logger::Info | H2Core::Logger::Warning | H2Core::Logger::Error;
     /* Logger */
@@ -18,12 +14,17 @@ int main( int argc, char* argv[] )
     H2Core::Filesystem::bootstrap( logger, "./data" );
     H2Core::Filesystem::info();
     H2Core::Filesystem::rm( H2Core::Filesystem::tmp_dir(), true );
+}
 
-    rubberband_test( H2Core::Filesystem::drumkit_path_search( "GMkit" )+"/cym_Jazz.flac" );
-    xml_drumkit( log_level );
-    xml_pattern( log_level );
 
-    delete logger;
+int main( int argc, char **argv)
+{
+	setupEnvironment();
 
-    return EXIT_SUCCESS;
+	CppUnit::TextUi::TestRunner runner;
+	CppUnit::TestFactoryRegistry &registry = CppUnit::TestFactoryRegistry::getRegistry();
+	runner.addTest( registry.makeTest() );
+	bool wasSuccessful = runner.run( "", false );
+
+	return wasSuccessful;
 }

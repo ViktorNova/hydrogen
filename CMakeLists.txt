@@ -19,7 +19,7 @@ PROJECT(hydrogen)
 SET(VERSION_MAJOR "0")
 SET(VERSION_MINOR "9")
 SET(VERSION_PATCH "6")
-#SET(VERSION_SUFFIX "beta3")
+#SET(VERSION_SUFFIX "RC2")
 
 SET(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
@@ -44,7 +44,7 @@ ELSE()
     OPTION(WANT_SHARED      "Build the core library shared." ON)
 ENDIF()
 
-OPTION(WANT_LIBARCHIVE   "Enable use of libarchive instead of libtar" OFF)
+OPTION(WANT_LIBARCHIVE   "Enable use of libarchive instead of libtar" ON)
 OPTION(WANT_LADSPA       "Enable use of LADSPA plugins" ON)
 
 IF(APPLE)
@@ -53,7 +53,12 @@ ELSE()
 	OPTION(WANT_JACKSESSION "Enable use of Jack-Session-Handler" ON)
 ENDIF()
 
-OPTION(WANT_OSS          "Include OSS (Open Sound System) support" OFF)
+IF("${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD")
+	OPTION(WANT_OSS          "Include OSS (Open Sound System) support" ON)
+ELSE()
+	OPTION(WANT_OSS          "Include OSS (Open Sound System) support" OFF)
+ENDIF()
+
 OPTION(WANT_ALSA         "Include ALSA (Advanced Linux Sound Architecture) support" ON)
 OPTION(WANT_JACK         "Include JACK (Jack Audio Connection Kit) support" ON)
 OPTION(WANT_PORTAUDIO    "Include PortAudio support" OFF)
@@ -67,6 +72,7 @@ IF(APPLE)
     OPTION(WANT_COREMIDI    "Include CoreMidi support" ON)
     OPTION(WANT_BUNDLE  "Build a MAC OSX bundle application" ON)
 ENDIF()
+OPTION(WANT_CPPUNIT      "Include CppUnit test suite" ON)
 
 IF(WANT_DEBUG)
     SET(CMAKE_BUILD_TYPE Debug)
@@ -89,14 +95,20 @@ ELSE()
 ENDIF()
 
 #SET(CMAKE_CXX_FLAGS "-fno-implement-inlines -finline-small-functions -findirect-inlining -fpartial-inlining")
-SET(CMAKE_CXX_FLAGS "-O2 -fno-implement-inlines")
+IF(APPLE)
+	SET(CMAKE_CXX_FLAGS "-O2")
+ELSE()
+	SET(CMAKE_CXX_FLAGS "-O2 -fno-implement-inlines")
+ENDIF()
+
 SET(CMAKE_CXX_FLAGS_RELEASE "")
+
 SET(CMAKE_CXX_FLAGS_DEBUG "-g ")#-Winline")
 
 
 IF(APPLE)
 	#Compile for 32bit and 64bit intel macs
-	SET (CMAKE_OSX_ARCHITECTURES "i386;x86_64;")
+	SET (CMAKE_OSX_ARCHITECTURES "x86_64;")
 ENDIF()
 #
 # MANDATORY PKGS AND DEFAULT OPTIONS
@@ -160,7 +172,13 @@ ENDIF()
 FIND_HELPER(LIBSNDFILE sndfile sndfile.h sndfile)
 FIND_HELPER(ALSA alsa alsa/asoundlib.h asound )
 FIND_LADSPA(LADSPA ladspa.h noise)
-FIND_HELPER(OSS oss sys/soundcard.h OSSlib )
+
+IF("${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD")
+	FIND_HELPER(OSS oss sys/soundcard.h ossaudio )
+ELSE()
+	FIND_HELPER(OSS oss sys/soundcard.h OSSlib )
+ENDIF()
+
 FIND_HELPER(JACK jack jack/jack.h jack)
 FIND_HELPER(JACKSESSION jack jack/session.h jack)
 IF(APPLE)
@@ -175,6 +193,7 @@ FIND_HELPER(PULSEAUDIO pulseaudio pulse/pulseaudio.h pulse)
 FIND_HELPER(LASH lash-1.0 lash/lash.h lash)
 FIND_HELPER(LRDF lrdf lrdf.h lrdf)
 FIND_HELPER(RUBBERBAND rubberband RubberBandStretcher.h rubberband)
+FIND_HELPER(CPPUNIT cppunit cppunit/TestCase.h cppunit)
 # CHECK FOR Qt4
 SET(QT_USE_QTNETWORK true)
 SET(QT_USE_QTXML true)
@@ -195,7 +214,7 @@ endif(DOXYGEN_FOUND)
 #
 # COMPUTE H2CORE_HAVE_xxx xxx_STATUS_REPORT
 #
-SET(STATUS_LIST LIBSNDFILE LIBTAR LIBARCHIVE LADSPA ALSA OSS JACK JACKSESSION COREAUDIO COREMIDI PORTAUDIO PORTMIDI PULSEAUDIO LASH LRDF RUBBERBAND )
+SET(STATUS_LIST LIBSNDFILE LIBTAR LIBARCHIVE LADSPA ALSA OSS JACK JACKSESSION COREAUDIO COREMIDI PORTAUDIO PORTMIDI PULSEAUDIO LASH LRDF RUBBERBAND CPPUNIT )
 FOREACH( _pkg ${STATUS_LIST})
     COMPUTE_PKGS_FLAGS(${_pkg})
 ENDFOREACH()
@@ -267,7 +286,8 @@ IF(WANT_DEBUG)
     COLOR_MESSAGE("${cyan}Miscellaneous capabilities${reset}
 -----------------------------------------
 * realtime clock               : ${HAVE_RTCLOCK}
-* working sscanf               : ${HAVE_SSCANF}\n"
+* working sscanf               : ${HAVE_SSCANF}
+* unit tests                   : ${CPPUNIT_STATUS}\n"
     )
 ENDIF()
 
@@ -292,7 +312,9 @@ ENDIF()
 # SET BUILD INFORMATION
 #
 ADD_SUBDIRECTORY(src/core)
-ADD_SUBDIRECTORY(src/tests)
+IF(H2CORE_HAVE_CPPUNIT)
+    ADD_SUBDIRECTORY(src/tests)
+ENDIF()
 ADD_SUBDIRECTORY(src/cli)
 ADD_SUBDIRECTORY(src/player)
 ADD_SUBDIRECTORY(src/synth)
