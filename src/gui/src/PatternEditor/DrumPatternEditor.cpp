@@ -119,8 +119,6 @@ void DrumPatternEditor::updateEditor()
 	update( 0, 0, width(), height() );
 }
 
-
-
 int DrumPatternEditor::getColumn(QMouseEvent *ev)
 {
 	int nBase;
@@ -131,10 +129,9 @@ int DrumPatternEditor::getColumn(QMouseEvent *ev)
 		nBase = 4;
 	}
 	int nWidth = (m_nGridWidth * 4 * MAX_NOTES) / (nBase * m_nResolution);
-
 	int x = ev->x();
 	int nColumn;
-	nColumn = x - 20 + (nWidth / 2);
+	nColumn = x - 20; // Viktor changed this to make the clicks line up with where the beats are now drawn
 	nColumn = nColumn / nWidth;
 	nColumn = (nColumn * 4 * MAX_NOTES) / (nBase * m_nResolution);
 	return nColumn;
