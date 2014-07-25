@@ -88,11 +88,11 @@ void setPalette( QApplication *pQApp )
 	// A general background color.
 	defaultPalette.setColor( QPalette::Background, QColor( 0, 0, 0  ) );
 
-	// A general foreground color.
-	defaultPalette.setColor( QPalette::Foreground, QColor( 0, 85, 255 ) );
+	// A general foreground color. Menu text hover,
+	defaultPalette.setColor( QPalette::Foreground, QColor( 0, 170, 255 ) );
 
 	// Used as the background color for text entry widgets; usually white or another light color.
-	defaultPalette.setColor( QPalette::Base, QColor( 88, 94, 112 ) );
+	defaultPalette.setColor( QPalette::Base, QColor( 0, 0, 57 ) );
 
 	// Used as the alternate background color in views with alternating row colors
 	defaultPalette.setColor( QPalette::AlternateBase, QColor( 138, 144, 162 ) );
@@ -101,20 +101,20 @@ void setPalette( QApplication *pQApp )
 	defaultPalette.setColor( QPalette::Text, QColor( 255, 255, 255 ) );
 
 	// The general button background color. This background can be different from Background as some styles require a different background color for buttons.
-	defaultPalette.setColor( QPalette::Button, QColor( 88, 94, 112 ) );
+	defaultPalette.setColor( QPalette::Button, QColor( 0, 85, 255 ) );
 
-	// A foreground color used with the Button color.
-	defaultPalette.setColor( QPalette::ButtonText, QColor( 255, 255, 255 ) );
+	// A foreground color used with the Button color. Menu text
+	defaultPalette.setColor( QPalette::ButtonText, QColor( 0, 85, 255 ) );
 
 
 	// Lighter than Button color.
-	defaultPalette.setColor( QPalette::Light, QColor( 138, 144, 162 ) );
+	defaultPalette.setColor( QPalette::Light, QColor( 0, 170, 255 ) );
 
 	// Between Button and Light.
 	defaultPalette.setColor( QPalette::Midlight, QColor( 128, 134, 152 ) );
 
 	// Darker than Button.
-	defaultPalette.setColor( QPalette::Dark, QColor( 58, 62, 72 ) );
+	defaultPalette.setColor( QPalette::Dark, QColor( 0, 0, 57 ) );
 
 	// Between Button and Dark.
 	defaultPalette.setColor( QPalette::Mid, QColor( 81, 86, 99 ) );
