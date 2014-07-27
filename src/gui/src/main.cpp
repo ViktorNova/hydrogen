@@ -82,6 +82,7 @@ static struct option long_opts[] = {
 //
 void setPalette( QApplication *pQApp )
 {
+/*
 	// create the default palette
 	QPalette defaultPalette;
 
@@ -131,6 +132,7 @@ void setPalette( QApplication *pQApp )
 
 	pQApp->setPalette( defaultPalette );
 	pQApp->setStyleSheet("QToolTip {padding: 1px; border: 1px solid rgb(199, 202, 204); background-color: rgb(227, 243, 252); color: rgb(64, 64, 66);}"); 
+*/
 }
 
 

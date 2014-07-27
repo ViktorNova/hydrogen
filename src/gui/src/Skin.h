@@ -33,7 +33,8 @@ class Skin
 	public:
 		static QString getImagePath()
 		{
-			return H2Core::Filesystem::img_dir().append( "/gray" );
+			return H2Core::Filesystem::img_dir().append( "/stagecraft-os" );
+//			return H2Core::Filesystem::img_dir().append( "/gray" );
 		}
 
 };
