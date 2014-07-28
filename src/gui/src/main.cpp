@@ -82,57 +82,62 @@ static struct option long_opts[] = {
 //
 void setPalette( QApplication *pQApp )
 {
-/*
+
 	// create the default palette
 	QPalette defaultPalette;
 
 	// A general background color.
-	defaultPalette.setColor( QPalette::Background, QColor( 0, 0, 0  ) );
+	// This should always be black!
+	defaultPalette.setColor( QPalette::Background, QColor( 0, 0, 0 ) );
 
-	// A general foreground color. Menu text hover,
-	defaultPalette.setColor( QPalette::Foreground, QColor( 0, 170, 255 ) );
+	// A general foreground color. 
+	// Instrument name text
+	// Menu background, menu text hover, toolbar background
+//	defaultPalette.setColor( QPalette::Foreground, QColor( 0, 0, 0 ) );
 
 	// Used as the background color for text entry widgets; usually white or another light color.
-	defaultPalette.setColor( QPalette::Base, QColor( 0, 0, 57 ) );
+//	defaultPalette.setColor( QPalette::Base, QColor( 0, 0, 57 ) );
 
 	// Used as the alternate background color in views with alternating row colors
-	defaultPalette.setColor( QPalette::AlternateBase, QColor( 138, 144, 162 ) );
+//	defaultPalette.setColor( QPalette::AlternateBase, QColor( 138, 144, 162 ) );
 
-	// The foreground color used with Base. This is usually the same as the Foreground, in which case it must provide good contrast with Background and Base.
-	defaultPalette.setColor( QPalette::Text, QColor( 255, 255, 255 ) );
+	// The foreground color used with Base. This is usually the same as the Foreground, in which case it must provide good contrast with Background and Base. ??
+//	defaultPalette.setColor( QPalette::Text, QColor( 255, 255, 255 ) );
 
-	// The general button background color. This background can be different from Background as some styles require a different background color for buttons.
-	defaultPalette.setColor( QPalette::Button, QColor( 0, 85, 255 ) );
+	// The general button background color. This background can be different from Background as some styles require a different background color for buttons. 
+	// In Hydrogen w/ Bespin this is the scrollbar color?
+	defaultPalette.setColor( QPalette::Button, QColor (0, 85, 255 ) );
 
-	// A foreground color used with the Button color. Menu text
-	defaultPalette.setColor( QPalette::ButtonText, QColor( 0, 85, 255 ) );
+	// A foreground color used with the Button color. 
+	// Tab text, dialog window tab background
+//	defaultPalette.setColor( QPalette::ButtonText, QColor( 255, 255, 255 ) );
 
 
 	// Lighter than Button color.
-	defaultPalette.setColor( QPalette::Light, QColor( 0, 170, 255 ) );
+//	defaultPalette.setColor( QPalette::Light, QColor( 0, 170, 255 ) );
 
 	// Between Button and Light.
-	defaultPalette.setColor( QPalette::Midlight, QColor( 128, 134, 152 ) );
+//	defaultPalette.setColor( QPalette::Midlight, QColor( 128, 134, 152 ) );
 
 	// Darker than Button.
-	defaultPalette.setColor( QPalette::Dark, QColor( 0, 0, 57 ) );
+//	defaultPalette.setColor( QPalette::Dark, QColor( 0, 0, 57 ) );
 
 	// Between Button and Dark.
-	defaultPalette.setColor( QPalette::Mid, QColor( 81, 86, 99 ) );
+//	defaultPalette.setColor( QPalette::Mid, QColor( 81, 86, 99 ) );
 
 	// A very dark color. By default, the shadow color is Qt::black.
-	defaultPalette.setColor( QPalette::Shadow, QColor( 255, 255, 255 ) );
+//	defaultPalette.setColor( QPalette::Shadow, QColor( 255, 255, 255 ) );
 
 
 	// A color to indicate a selected item or the current item.
-	defaultPalette.setColor( QPalette::Highlight, QColor( 116, 124, 149 ) );
+//	defaultPalette.setColor( QPalette::Highlight, QColor( 116, 124, 149 ) );
 
 	// A text color that contrasts with Highlight.
-	defaultPalette.setColor( QPalette::HighlightedText, QColor( 255, 255, 255 ) );
+//	defaultPalette.setColor( QPalette::HighlightedText, QColor( 255, 255, 255 ) );
 
 	pQApp->setPalette( defaultPalette );
-	pQApp->setStyleSheet("QToolTip {padding: 1px; border: 1px solid rgb(199, 202, 204); background-color: rgb(227, 243, 252); color: rgb(64, 64, 66);}"); 
-*/
+//	pQApp->setStyleSheet("QToolTip {padding: 1px; border: 1px solid rgb(199, 202, 204); background-color: rgb(227, 243, 252); color: rgb(64, 64, 66);}"); 
+
 }
 
 

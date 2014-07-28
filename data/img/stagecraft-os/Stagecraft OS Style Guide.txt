@@ -1,0 +1,6 @@
+Blue Color: 0, 85, 255
+Border-radius: 
+
+FONTS
+Main font: Enter Sansman 
+Tiny: 18
