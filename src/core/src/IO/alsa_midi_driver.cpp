@@ -20,7 +20,7 @@
  *
  */
 
-#include "AlsaMidiDriver.h"
+#include <hydrogen/IO/AlsaMidiDriver.h>
 
 #ifdef H2CORE_HAVE_ALSA
 
@@ -247,6 +247,13 @@ void AlsaMidiDriver::midi_action( snd_seq_t *seq_handle )
 				msg.m_type = MidiMessage::CONTROL_CHANGE;
 				msg.m_nData1 = ev->data.control.param;
 				msg.m_nData2 = ev->data.control.value;
+				msg.m_nChannel = ev->data.control.channel;
+				break;
+
+			case SND_SEQ_EVENT_KEYPRESS:
+				msg.m_type = MidiMessage::POLYPHONIC_KEY_PRESSURE;
+				msg.m_nData1 = ev->data.note.note;
+				msg.m_nData2 = ev->data.note.velocity;
 				msg.m_nChannel = ev->data.control.channel;
 				break;
 

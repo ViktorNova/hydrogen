@@ -59,6 +59,16 @@
 #include <hydrogen/helpers/filesystem.h>
 #include <hydrogen/fx/LadspaFX.h>
 #include <hydrogen/fx/Effects.h>
+
+#include <hydrogen/Preferences.h>
+#include <hydrogen/sampler/Sampler.h>
+#include <hydrogen/midi_map.h>
+#include <hydrogen/playlist.h>
+
+#ifdef H2CORE_HAVE_NSMSESSION
+#include <hydrogen/nsm_client.h>
+#endif
+
 #include <hydrogen/IO/AudioOutput.h>
 #include <hydrogen/IO/JackOutput.h>
 #include <hydrogen/IO/NullDriver.h>
@@ -66,21 +76,16 @@
 #include <hydrogen/IO/MidiOutput.h>
 #include <hydrogen/IO/CoreMidiDriver.h>
 #include <hydrogen/IO/TransportInfo.h>
-#include <hydrogen/Preferences.h>
-#include <hydrogen/sampler/Sampler.h>
-#include <hydrogen/midi_map.h>
-#include <hydrogen/playlist.h>
-
-#include "IO/OssDriver.h"
-#include "IO/FakeDriver.h"
-#include "IO/AlsaAudioDriver.h"
-#include "IO/PortAudioDriver.h"
-#include "IO/DiskWriterDriver.h"
-#include "IO/AlsaMidiDriver.h"
-#include "IO/JackMidiDriver.h"
-#include "IO/PortMidiDriver.h"
-#include "IO/CoreAudioDriver.h"
-#include "IO/PulseAudioDriver.h"
+#include <hydrogen/IO/OssDriver.h>
+#include <hydrogen/IO/FakeDriver.h>
+#include <hydrogen/IO/AlsaAudioDriver.h>
+#include <hydrogen/IO/PortAudioDriver.h>
+#include <hydrogen/IO/DiskWriterDriver.h>
+#include <hydrogen/IO/AlsaMidiDriver.h>
+#include <hydrogen/IO/JackMidiDriver.h>
+#include <hydrogen/IO/PortMidiDriver.h>
+#include <hydrogen/IO/CoreAudioDriver.h>
+#include <hydrogen/IO/PulseAudioDriver.h>
 
 namespace H2Core
 {
@@ -1782,8 +1787,9 @@ Hydrogen::Hydrogen()
 	audioEngine_init();
 	// Prevent double creation caused by calls from MIDI thread
 	__instance = this;
+
 	audioEngine_startAudioDrivers();
-	for(int i = 0; i<128; i++){
+	for(int i = 0; i< MAX_INSTRUMENTS; i++){
 		m_nInstrumentLookupTable[i] = i;
 	}
 }
@@ -1791,6 +1797,16 @@ Hydrogen::Hydrogen()
 Hydrogen::~Hydrogen()
 {
 	INFOLOG( "[~Hydrogen]" );
+
+#ifdef H2CORE_HAVE_NSMSESSION
+	NsmClient* pNsmClient = NsmClient::get_instance();
+
+	if(pNsmClient){
+		pNsmClient->shutdown();
+	}
+#endif
+
+
 	if ( m_audioEngineState == STATE_PLAYING ) {
 		audioEngine_stop();
 	}
@@ -1810,6 +1826,10 @@ void Hydrogen::create_instance()
 	Preferences::create_instance();
 	EventQueue::create_instance();
 	MidiActionManager::create_instance();
+
+#ifdef H2CORE_HAVE_NSMSESSION
+	NsmClient::create_instance();
+#endif
 
 	if ( __instance == 0 ) {
 		__instance = new Hydrogen;
@@ -3295,5 +3315,17 @@ void Hydrogen::setTimelineBpm()
 			setBPM( bpm );
 	}
 }
+
+#ifdef H2CORE_HAVE_NSMSESSION
+void Hydrogen::startNsmClient()
+{
+	//NSM has to be started before jack driver gets created
+	NsmClient* pNsmClient = NsmClient::get_instance();
+
+	if(pNsmClient){
+		pNsmClient->createInitialClient();
+	}
+}
+#endif
 
 }; /* Namespace */

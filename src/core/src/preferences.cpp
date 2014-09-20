@@ -254,6 +254,10 @@ Preferences::Preferences()
 	m_ladspaProperties[2].set(2, 20, 0, 0, false);
 	m_ladspaProperties[3].set(2, 20, 0, 0, false);
 
+	m_nColoringMethod = 0;
+	m_nColoringMethodAuxValue = 0;
+
+
 	UIStyle* uis = m_pDefaultUIStyle;
 	uis->m_songEditor_backgroundColor = H2RGBColor(95, 101, 117);
 	uis->m_songEditor_alternateRowColor = H2RGBColor(128, 134, 152);
@@ -623,6 +627,11 @@ void Preferences::loadPreferences( bool bGlobal )
 					WARNINGLOG( "UI_Style node not found" );
 					recreate = true;
 				}
+
+				//SongEditor coloring
+				m_nColoringMethod = LocalFileMng::readXmlInt( guiNode, "SongEditor_ColoringMethod", 0 );
+				m_nColoringMethodAuxValue = LocalFileMng::readXmlInt( guiNode, "SongEditor_ColoringMethodAuxValue", 0 );
+
 			}
 
 			/////////////// FILES //////////////
@@ -740,14 +749,14 @@ void Preferences::savePreferences()
 	LocalFileMng::writeXmlString( rootNode, "patternModePlaysSelected", m_bPatternModePlaysSelected ? "true": "false" );
 
 	LocalFileMng::writeXmlString( rootNode, "useLash", m_bsetLash ? "true": "false" );
-		LocalFileMng::writeXmlString( rootNode, "useTimeLine", __useTimelineBpm ? "true": "false" );
+	LocalFileMng::writeXmlString( rootNode, "useTimeLine", __useTimelineBpm ? "true": "false" );
 
 	LocalFileMng::writeXmlString( rootNode, "maxBars", QString::number( maxBars ) );
 
-		LocalFileMng::writeXmlString( rootNode, "defaultUILayout", QString::number( m_nDefaultUILayout ) );
-		LocalFileMng::writeXmlString( rootNode, "lastOpenTab", QString::number( m_nLastOpenTab ) );
+	LocalFileMng::writeXmlString( rootNode, "defaultUILayout", QString::number( m_nDefaultUILayout ) );
+	LocalFileMng::writeXmlString( rootNode, "lastOpenTab", QString::number( m_nLastOpenTab ) );
 
-		LocalFileMng::writeXmlString( rootNode, "useTheRubberbandBpmChangeEvent", m_useTheRubberbandBpmChangeEvent ? "true": "false" );
+	LocalFileMng::writeXmlString( rootNode, "useTheRubberbandBpmChangeEvent", m_useTheRubberbandBpmChangeEvent ? "true": "false" );
 
 	LocalFileMng::writeXmlString( rootNode, "preDelete", QString("%1").arg(m_nRecPreDelete) );
 	LocalFileMng::writeXmlString( rootNode, "postDelete", QString("%1").arg(m_nRecPostDelete) );
@@ -975,6 +984,11 @@ void Preferences::savePreferences()
 
 		// User interface style
 		writeUIStyle( guiNode );
+
+		//SongEditor coloring method
+		LocalFileMng::writeXmlString( guiNode, "SongEditor_ColoringMethod", QString::number( m_nColoringMethod ) );
+		LocalFileMng::writeXmlString( guiNode, "SongEditor_ColoringMethodAuxValue", QString::number( m_nColoringMethodAuxValue ) );
+
 	}
 	rootNode.appendChild( guiNode );
 
@@ -1344,23 +1358,6 @@ H2RGBColor::H2RGBColor( const QString& sColor )
 	m_red %= 256;
 	m_green %= 256;
 	m_blue %= 256;
-
-/*
-	int nPos = temp.indexOf( ',' );
-	QString sRed = temp.substr( 0, nPos );
-	temp.erase( 0, nPos + 1 );
-
-	nPos = temp.find( ',' );
-	QString sGreen = temp.substr( 0, nPos );
-	temp.erase( 0, nPos + 1 );
-
-	nPos = temp.find( ',' );
-	QString sBlue = temp.substr( 0, nPos );
-
-	m_red = atoi( sRed.c_str() );
-	m_green = atoi( sGreen.c_str() );
-	m_blue = atoi( sBlue.c_str() );
-*/
 }
 
 
@@ -1369,9 +1366,6 @@ QString H2RGBColor::toStringFmt()
 {
 	char tmp[255];
 	sprintf( tmp, "%d,%d,%d", m_red, m_green, m_blue );
-
-	//string sRes = to_string( m_red ) + "," + to_string( m_green ) + "," + to_string( m_blue );
-//	return sRes;
 
 	return QString( tmp );
 }

@@ -18,7 +18,7 @@ ENDIF()
 PROJECT(hydrogen)
 SET(VERSION_MAJOR "0")
 SET(VERSION_MINOR "9")
-SET(VERSION_PATCH "6")
+SET(VERSION_PATCH "7")
 #SET(VERSION_SUFFIX "RC2")
 
 SET(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
@@ -48,9 +48,11 @@ OPTION(WANT_LIBARCHIVE   "Enable use of libarchive instead of libtar" ON)
 OPTION(WANT_LADSPA       "Enable use of LADSPA plugins" ON)
 
 IF(APPLE)
+	OPTION(WANT_NSMSESSION  "Enable NSM Session integration" OFF)
 	OPTION(WANT_JACKSESSION "Enable use of Jack-Session-Handler" OFF)
 ELSE()
 	OPTION(WANT_JACKSESSION "Enable use of Jack-Session-Handler" ON)
+	OPTION(WANT_NSMSESSION  "Enable NSM Session integration" ON)
 ENDIF()
 
 IF("${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD")
@@ -173,6 +175,8 @@ FIND_HELPER(LIBSNDFILE sndfile sndfile.h sndfile)
 FIND_HELPER(ALSA alsa alsa/asoundlib.h asound )
 FIND_LADSPA(LADSPA ladspa.h noise)
 
+FIND_HELPER(NSMSESSION liblo lo/lo.h lo)
+
 IF("${CMAKE_SYSTEM_NAME}" MATCHES "NetBSD")
 	FIND_HELPER(OSS oss sys/soundcard.h ossaudio )
 ELSE()
@@ -192,8 +196,14 @@ FIND_HELPER(PORTMIDI portmidi portmidi.h portmidi)
 FIND_HELPER(PULSEAUDIO pulseaudio pulse/pulseaudio.h pulse)
 FIND_HELPER(LASH lash-1.0 lash/lash.h lash)
 FIND_HELPER(LRDF lrdf lrdf.h lrdf)
+
+IF(LRDF_FOUND)
+	include_directories(${LRDF_INCLUDE_DIRS}) # see github issue 194
+ENDIF(LRDF_FOUND)
+
 FIND_HELPER(RUBBERBAND rubberband RubberBandStretcher.h rubberband)
 FIND_HELPER(CPPUNIT cppunit cppunit/TestCase.h cppunit)
+
 # CHECK FOR Qt4
 SET(QT_USE_QTNETWORK true)
 SET(QT_USE_QTXML true)
@@ -214,7 +224,7 @@ endif(DOXYGEN_FOUND)
 #
 # COMPUTE H2CORE_HAVE_xxx xxx_STATUS_REPORT
 #
-SET(STATUS_LIST LIBSNDFILE LIBTAR LIBARCHIVE LADSPA ALSA OSS JACK JACKSESSION COREAUDIO COREMIDI PORTAUDIO PORTMIDI PULSEAUDIO LASH LRDF RUBBERBAND CPPUNIT )
+SET(STATUS_LIST LIBSNDFILE LIBTAR LIBARCHIVE LADSPA ALSA OSS JACK JACKSESSION NSMSESSION COREAUDIO COREMIDI PORTAUDIO PORTMIDI PULSEAUDIO LASH LRDF RUBBERBAND CPPUNIT )
 FOREACH( _pkg ${STATUS_LIST})
     COMPUTE_PKGS_FLAGS(${_pkg})
 ENDFOREACH()
@@ -267,6 +277,7 @@ COLOR_MESSAGE("${cyan}Supported audio interfaces${reset}
 * ${purple}OSS${reset}                          : ${OSS_STATUS}
 * ${purple}JACK${reset}                         : ${JACK_STATUS}
 * ${purple}JACKSESSION${reset}                  : ${JACKSESSION_STATUS}
+* ${purple}NSM Session${reset}                  : ${NSMSESSION_STATUS}   
 * ${purple}CoreAudio${reset}                    : ${COREAUDIO_STATUS}
 * ${purple}CoreMidi${reset}                     : ${COREMIDI_STATUS}
 * ${purple}PortAudio${reset}                    : ${PORTAUDIO_STATUS}

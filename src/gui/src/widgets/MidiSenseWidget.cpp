@@ -26,10 +26,10 @@
 
 const char* MidiSenseWidget::__class_name = "MidiSenseWidget";
 
-MidiSenseWidget::MidiSenseWidget(QWidget* pParent, bool directWr  , MidiAction* midiAction ): QDialog( pParent ) , Object(__class_name)
+MidiSenseWidget::MidiSenseWidget(QWidget* pParent, bool directWr, MidiAction* midiAction): QDialog( pParent ) , Object(__class_name)
 {
-	directWrite = directWr;
-	action = midiAction;
+	m_DirectWrite = directWr;
+	m_pAction = midiAction;
 
 
 	setWindowTitle( "Waiting.." );
@@ -38,20 +38,20 @@ MidiSenseWidget::MidiSenseWidget(QWidget* pParent, bool directWr  , MidiAction* 
 	m_pURLLabel = new QLabel( this );
 	m_pURLLabel->setAlignment( Qt::AlignCenter );
 
-	if(action != NULL){
-	    m_pURLLabel->setText( "Waiting for midi input..." );
-	} else{
+	if(m_pAction != NULL){
+		m_pURLLabel->setText( "Waiting for midi input..." );
+	} else {
 
-            /*
-             *   Check if this widget got called from the midiTable in the preferences
-             *   window(directWrite=false) or by clicking on a midiLearn-capable gui item(directWrite=true)
-             */
+		/*
+		 *   Check if this widget got called from the midiTable in the preferences
+		 *   window(directWrite=false) or by clicking on a midiLearn-capable gui item(directWrite=true)
+		 */
 
-            if(directWrite){
-                m_pURLLabel->setText( "This element is not midi operable." );
-            } else {
-                m_pURLLabel->setText( "Waiting for midi input..." );
-            }
+		if(m_DirectWrite){
+			m_pURLLabel->setText( trUtf8("This element is not midi operable.") );
+		} else {
+			m_pURLLabel->setText( trUtf8("Waiting for midi input...") );
+		}
 	}
 	
 	QVBoxLayout* pVBox = new QVBoxLayout( this );
@@ -82,27 +82,27 @@ void MidiSenseWidget::updateMidi(){
 		lastMidiEventParameter = pEngine->lastMidiEventParameter;
 
 
-		if( directWrite ){
-		    //write the action / parameter combination to the midiMap
-		    MidiMap *mM = MidiMap::get_instance();
-		    assert(action);
-		    MidiAction* pAction = new MidiAction( action->getType() );
+		if( m_DirectWrite ){
+			//write the action / parameter combination to the midiMap
+			MidiMap *pMidiMap = MidiMap::get_instance();
 
-		    //if( action->getParameter1() != 0){
-		    pAction->setParameter1( action->getParameter1() );
-		    //}
+			assert(m_pAction);
 
-		    if( lastMidiEvent.left(2) == "CC" ){
-			    mM->registerCCEvent( lastMidiEventParameter , pAction );
-		    }
+			MidiAction* pAction = new MidiAction( m_pAction->getType() );
 
-		    if( lastMidiEvent.left(3) == "MMC" ){
-			    mM->registerMMCEvent( lastMidiEvent , pAction );
-		    }
+			pAction->setParameter1( m_pAction->getParameter1() );
 
-		    if( lastMidiEvent.left(4) == "NOTE" ){
-			    mM->registerNoteEvent( lastMidiEvent.toInt() , pAction );
-		    }
+			if( lastMidiEvent.left(2) == "CC" ){
+				pMidiMap->registerCCEvent( lastMidiEventParameter , pAction );
+			} else if( lastMidiEvent.left(3) == "MMC" ){
+				pMidiMap->registerMMCEvent( lastMidiEvent , pAction );
+			} else if( lastMidiEvent.left(4) == "NOTE" ){
+				pMidiMap->registerNoteEvent( lastMidiEvent.toInt() , pAction );
+			} else {
+				/* In all other cases, the midiMap cares for deleting the pointer */
+
+				delete pAction;
+			}
 		}
 
 		close();

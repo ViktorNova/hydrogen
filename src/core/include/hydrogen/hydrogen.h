@@ -169,8 +169,13 @@ public:
 
 	int getSelectedInstrumentNumber();
 	void setSelectedInstrumentNumber( int nInstrument );
+
 #ifdef H2CORE_HAVE_JACK
 	void renameJackPorts();
+#endif
+
+#ifdef H2CORE_HAVE_NSMSESSION
+	void startNsmClient();
 #endif
 
 	///playlist vector
@@ -254,7 +259,7 @@ public:
 	};
 
 		///midi lookuptable
-		int m_nInstrumentLookupTable[128];
+		int m_nInstrumentLookupTable[MAX_INSTRUMENTS];
 		//void editInstrumentLookupTable( int instrument, int index);
 
 
