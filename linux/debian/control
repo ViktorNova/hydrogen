@@ -1,7 +1,7 @@
 Source: hydrogen
 Section: Multimedia
 Priority: optional
-Maintainer: Sebastian Moors <smoors@users.sf.net>
+Maintainer: Viktor Nova <viktor@stagecraftos.com>
 Build-Depends: debhelper (>= 4.0.0), libsndfile1-dev, libjack-dev, libasound-dev, libtar-dev, libqt4-dev, liblrdf-dev, cmake, librubberband-dev
 Standards-Version: 3.6.2
 
@@ -13,6 +13,9 @@ Description: Drum machine/step sequencer
  professional yet simple and intuitive pattern-based drum
  programming. See http://www.hydrogen-music.org for details.
  .
- Warning: this package contains the development version (potentially
- unstable) released for testing purpose only.
+ This is a fork of Hydrogen for Stagecraft OS, with visual enhancements
+ optimized for touchscreens and other graphical improvements.
+ .
+ This package also contains the latest features from the the upstream
+ development version, and is therefore potentially unstable
 
