@@ -38,8 +38,13 @@ configure-stamp:
 build: build-stamp
 build-stamp: configure-stamp
 	dh_testdir
-
+	pwd
         # Add here commands to compile the package.
+	cd ..
+	pwd
+	echo "Fixing PNGs, please wait..."
+	cd ..; find -name '*.png' -exec optipng -quiet -force -fix {} +  
+	pwd
 	cd ../builddebian; $(MAKE) $(H2_PARALLEL_BUILDS)
 
 	touch build-stamp
