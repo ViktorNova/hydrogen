@@ -85,15 +85,28 @@ void setPalette( QApplication *pQApp )
 
 	// create the default palette
 	QPalette defaultPalette;
+	QPalette stagecraftPalette;
 
 	// A general background color.
 	// This should always be black!
+	// Menu Background
+	// Scrollbar background color
+	// Pretty much everything's background
 	defaultPalette.setColor( QPalette::Background, QColor( 0, 0, 0 ) );
+	stagecraftPalette.setColor( QPalette::Background, QColor( 0, 0, 0 ) );
 
 	// A general foreground color. 
 	// Instrument name text
-	// Menu background, menu text hover, toolbar background
-//	defaultPalette.setColor( QPalette::Foreground, QColor( 0, 0, 0 ) );
+	// Current drum kit name text
+	// Menu bar text hover
+	// Menu background (right click & menubar menu)
+	// Dialog windows: button background, dropdown menu background, and text
+	// Scrollbar handle tint (only when window is active)
+	// Checkbox background (instrument editor and elsewhere)
+	// Drum pattern editor ruler outline color
+	// Area resizing grip
+	defaultPalette.setColor( QPalette::Foreground, QColor( 0, 85, 255 ) );
+	stagecraftPalette.setColor( QPalette::Foreground, QColor( 0, 85, 255 ) );
 
 	// Used as the background color for text entry widgets; usually white or another light color.
 //	defaultPalette.setColor( QPalette::Base, QColor( 0, 0, 57 ) );
@@ -105,16 +118,21 @@ void setPalette( QApplication *pQApp )
 //	defaultPalette.setColor( QPalette::Text, QColor( 255, 255, 255 ) );
 
 	// The general button background color. This background can be different from Background as some styles require a different background color for buttons. 
-	// In Hydrogen w/ Bespin this is the scrollbar color?
 	defaultPalette.setColor( QPalette::Button, QColor (0, 85, 255 ) );
-
-	// A foreground color used with the Button color. 
+	stagecraftPalette.setColor( QPalette::Button, QColor (0, 85, 255 ) );
+	
 	// Tab text, dialog window tab background
+	
+	
+	// A foreground color used with the Button color. 
+	// Menu bar text
+	// MIDI actions header text
 //	defaultPalette.setColor( QPalette::ButtonText, QColor( 255, 255, 255 ) );
-
+	stagecraftPalette.setColor( QPalette::ButtonText, QColor( 0, 34, 102 ) );
 
 	// Lighter than Button color.
 //	defaultPalette.setColor( QPalette::Light, QColor( 0, 170, 255 ) );
+
 
 	// Between Button and Light.
 //	defaultPalette.setColor( QPalette::Midlight, QColor( 128, 134, 152 ) );
@@ -135,7 +153,8 @@ void setPalette( QApplication *pQApp )
 	// A text color that contrasts with Highlight.
 //	defaultPalette.setColor( QPalette::HighlightedText, QColor( 255, 255, 255 ) );
 
-	pQApp->setPalette( defaultPalette );
+//	pQApp->setPalette( defaultPalette );  // Use default gray color scheme to match the standard "Gray" Hydrogen theme
+	pQApp->setPalette( stagecraftPalette ); // Use black and blue color scheme to match the "Stagecraft OS" Hydrogen theme
 //	pQApp->setStyleSheet("QToolTip {padding: 1px; border: 1px solid rgb(199, 202, 204); background-color: rgb(227, 243, 252); color: rgb(64, 64, 66);}"); 
 
 }
