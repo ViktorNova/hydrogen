@@ -146,7 +146,6 @@ void setPalette( QApplication *pQApp )
 	// A very dark color. By default, the shadow color is Qt::black.
 //	defaultPalette.setColor( QPalette::Shadow, QColor( 255, 255, 255 ) );
 
-
 	// A color to indicate a selected item or the current item.
 //	defaultPalette.setColor( QPalette::Highlight, QColor( 116, 124, 149 ) );
 
