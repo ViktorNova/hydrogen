@@ -67,10 +67,10 @@ InstrumentLine::InstrumentLine(QWidget* pParent)
 
 	m_pMuteBtn = new ToggleButton(
 			this,
-			"/mixerPanel/btn_mute_on.png",
-			"/mixerPanel/btn_mute_off.png",
-			"/mixerPanel/btn_mute_off.png",
-			QSize( 18, 13 )
+			"/patternEditor/btn_mute_on.png",
+			"/patternEditor/btn_mute_off.png",
+			"/patternEditor/btn_mute_off.png",
+			QSize( 18, 40 )
 	);
 	m_pMuteBtn->move( 145, 5 );
 	m_pMuteBtn->setPressed(false);
@@ -79,10 +79,10 @@ InstrumentLine::InstrumentLine(QWidget* pParent)
 
 	m_pSoloBtn = new ToggleButton(
 			this,
-			"/mixerPanel/btn_solo_on.png",
-			"/mixerPanel/btn_solo_off.png",
-			"/mixerPanel/btn_solo_off.png",
-			QSize( 18, 13 )
+			"/patternEditor/btn_solo_on.png",
+			"/patternEditor/btn_solo_off.png",
+			"/patternEditor/btn_solo_off.png",			
+			QSize( 18, 40 )
 	);
 	m_pSoloBtn->move( 163, 5 );
 	m_pSoloBtn->setPressed(false);
