@@ -231,17 +231,17 @@ Preferences::Preferences()
 	m_sLastNews = QString("-");
 
 	//___ GUI properties ___
-	m_sQTStyle = "Plastique";
+	m_sQTStyle = "Virtuality";
 	applicationFontFamily = "Lucida Grande";
-	applicationFontPointSize = 10;
-	mixerFontFamily = "Lucida Grande";
-	mixerFontPointSize = 11;
+	applicationFontPointSize = 12;
+	mixerFontFamily = "Enter Sansman";
+	mixerFontPointSize = 10;
 	mixerFalloffSpeed = 1.1;
-	m_nPatternEditorGridResolution = 8;
+	m_nPatternEditorGridResolution = 16;
 	m_bPatternEditorUsingTriplets = false;
 	m_bShowInstrumentPeaks = true;
 	m_bIsFXTabVisible = true;
-	m_nPatternEditorGridHeight = 21;
+	m_nPatternEditorGridHeight = 45;
 	m_nPatternEditorGridWidth = 3;
 	mainFormProperties.set(0, 0, 1000, 700, true);
 	mixerProperties.set(10, 350, 829, 276, true);
@@ -259,22 +259,22 @@ Preferences::Preferences()
 
 
 	UIStyle* uis = m_pDefaultUIStyle;
-	uis->m_songEditor_backgroundColor = H2RGBColor(95, 101, 117);
-	uis->m_songEditor_alternateRowColor = H2RGBColor(128, 134, 152);
-	uis->m_songEditor_selectedRowColor = H2RGBColor(128, 134, 152);
-	uis->m_songEditor_lineColor = H2RGBColor(72, 76, 88);
-	uis->m_songEditor_textColor = H2RGBColor(196, 201, 214);
-	uis->m_songEditor_pattern1Color = H2RGBColor(97, 167, 251);
-	uis->m_patternEditor_backgroundColor = H2RGBColor(167, 168, 163);
-	uis->m_patternEditor_alternateRowColor = H2RGBColor(167, 168, 163);
-	uis->m_patternEditor_selectedRowColor = H2RGBColor(207, 208, 200);
-	uis->m_patternEditor_textColor = H2RGBColor(40, 40, 40);
-	uis->m_patternEditor_noteColor = H2RGBColor(40, 40, 40);
-	uis->m_patternEditor_lineColor = H2RGBColor(65, 65, 65);
-	uis->m_patternEditor_line1Color = H2RGBColor(75, 75, 75);
-	uis->m_patternEditor_line2Color = H2RGBColor(95, 95, 95);
-	uis->m_patternEditor_line3Color = H2RGBColor(115, 115, 115);
-	uis->m_patternEditor_line4Color = H2RGBColor(125, 125, 125);
+	uis->m_songEditor_backgroundColor = H2RGBColor(9, 9, 9);
+	uis->m_songEditor_alternateRowColor = H2RGBColor(0, 0, 0);
+	uis->m_songEditor_selectedRowColor = H2RGBColor(0, 255, 255);
+	uis->m_songEditor_lineColor = H2RGBColor(0, 0, 100);
+	uis->m_songEditor_textColor = H2RGBColor(0, 255, 255);
+	uis->m_songEditor_pattern1Color = H2RGBColor(0, 255, 255);
+	uis->m_patternEditor_backgroundColor = H2RGBColor(12, 0, 36);
+	uis->m_patternEditor_alternateRowColor = H2RGBColor(12, 0, 36);
+	uis->m_patternEditor_selectedRowColor = H2RGBColor(0, 155, 188);
+	uis->m_patternEditor_textColor = H2RGBColor(0, 255, 255);
+	uis->m_patternEditor_noteColor = H2RGBColor(0, 220, 255);
+	uis->m_patternEditor_lineColor = H2RGBColor(40, 0, 146);
+	uis->m_patternEditor_line1Color = H2RGBColor(138, 86, 254);
+	uis->m_patternEditor_line2Color = H2RGBColor(50, 50, 50);
+	uis->m_patternEditor_line3Color = H2RGBColor(0, 0, 128);
+	uis->m_patternEditor_line4Color = H2RGBColor(78, 85, 122);
 	uis->m_patternEditor_line5Color = H2RGBColor(135, 135, 135);
 
 	/////////////////////////////////////////////////////////////////////////
