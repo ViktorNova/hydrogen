@@ -1,4 +1,11 @@
-hydrogen (0.9.7-alpha) unstable; urgency=low
+hydrogen (20150311-stagecraft) unstable; urgency=low
+  * Release 20150311-stagecraft
+  * new dark sci-fi skin and color theme
+  * NSM (Non Session Manager) support
+  * larger pattern editor
+  * notes in pattern editor are no longer centered on the beat lines,
+    and it feels more like a step sequencer
+
   * Release 0.9.7
   * midi hihat support
   * midi cymbal choke support
